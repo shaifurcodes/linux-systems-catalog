@@ -16,6 +16,7 @@ On **Ubuntu/Debian-based systems**, run:
 ```bash
 sudo apt update
 sudo apt install build-essential cmake libgtest-dev
+```
 ---
 
 ## 📋 Problem Catalog (P01 - P50)
