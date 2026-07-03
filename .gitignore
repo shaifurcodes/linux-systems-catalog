@@ -1,0 +1,26 @@
+# CMake Build Directories & Artifacts
+build/
+.cmake/
+CMakeCache.txt
+CMakeFiles/
+CMakeTargetDirectories.txt
+cmake_install.cmake
+Makefile
+targets/
+
+# Compiled Binaries & Test Executables
+test_p[0-9]*
+*.out
+*.exe
+*.o
+*.obj
+*.a
+*.so
+*.dylib
+
+# Development / IDE environments
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
