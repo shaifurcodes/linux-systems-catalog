@@ -14,16 +14,16 @@
  */
 typedef struct {
     uint8_t *buf;
-    uint32_t head;   /* write index, never wraps */
-    uint32_t tail;   /* read  index, never wraps */
-    uint32_t cap;    /* must be power of two     */
+    size_t head;   /* write index, never wraps */
+    size_t tail;   /* read  index, never wraps */
+    size_t cap;    /* must be power of two     */
 } RingBuffer;
 
-int      rb_init(RingBuffer *rb, uint32_t cap);   /* returns -1 if cap not pow2 */
+int      rb_init(RingBuffer *rb, size_t cap);   /* returns -1 if cap not pow2 */
 void     rb_destroy(RingBuffer *rb);
 int      rb_push(RingBuffer *rb, uint8_t byte);   /* -1 if full  */
 int      rb_pop(RingBuffer *rb, uint8_t *out);    /* -1 if empty */
-uint32_t rb_used(const RingBuffer *rb);
+size_t rb_used(const RingBuffer *rb);
 bool     rb_is_empty(const RingBuffer *rb);
 bool     rb_is_full(const RingBuffer *rb);
 #endif

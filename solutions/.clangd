@@ -1,0 +1,11 @@
+If:
+  Language: cpp
+CompileFlags:
+  Add: [-std=c++17, -Iinclude]
+
+---
+
+If:
+  Language: c
+CompileFlags:
+  Add: [-std=c11, -Iinclude]
