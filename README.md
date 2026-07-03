@@ -1,3 +1,21 @@
+## 🔬 Skill Evaluation & Value
+These 50 cataloged problems target the core architectural patterns required for high-reliability systems programming, Linux device driver engineering, and kernel-space development. Evaluating candidates or engineers on these primitives assesses their deep understanding of boundary conditions, memory efficiency, and deterministic execution:
+* **Memory Ownership & Allocation:** Implementing memory pools, buddy allocators, or slabs requires an explicit mastery over physical/virtual alignments, cache-line fragmentation, and avoiding memory leaks without runtime garbage collection.
+* **Concurrency Primitives:** Building lock-free queues, ticket locks, and spinlocks tests the foundational knowledge of CPU cache coherency models, atomic instructions (`__atomic` assembly builtins), and memory barriers.
+* **State Machines & Protocol Parsers:** Low-level logic handling UART FSMs, Netlink variable-length streams, or USB states models the exact high-stress, asynchronous environments found in real interrupt handlers, where zero-allocation parsing and structural safety are absolute requirements.
+
+## 🛠️ Building & Testing Framework
+
+This repository utilizes **CMake** to generate cross-platform build configurations, manage dependency tracking, and organize compilation targets efficiently across all 50 problem modules. Rather than calling raw compiler strings repeatedly, CMake automatically detects changes, optimizes object compilation, and links the execution binaries against modern testing frameworks.
+
+### Prerequisites
+
+Ensure your system has a proper C/C++ toolchain, CMake build tool, and GoogleTest (GTest) development packages installed.
+
+On **Ubuntu/Debian-based systems**, run:
+```bash
+sudo apt update
+sudo apt install build-essential cmake libgtest-dev
 ---
 
 ## 📋 Problem Catalog (P01 - P50)
