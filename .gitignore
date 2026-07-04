@@ -34,3 +34,11 @@ compile_commands.json
 
 # Ignore clangd's local hidden index cache folder
 .clangd/
+
+# Ignore any file or folder named exactly .cache
+.cache/
+.cache
+
+# Ignore any file ending in .cache anywhere in the repository
+*.cache
+**/*.cache

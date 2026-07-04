@@ -17,7 +17,10 @@ typedef struct {
     uint32_t lru_tick; /* higher = more recent */
 } InodeEntry;
 
-typedef struct { InodeEntry slots[INODE_CACHE_SIZE]; uint32_t tick; } InodeCache;
+typedef struct { 
+    InodeEntry slots[INODE_CACHE_SIZE]; 
+    uint32_t tick; 
+} InodeCache;
 
 void         ic_init(InodeCache *c);
 void         ic_insert(InodeCache *c, uint64_t ino, uint32_t mode, uint64_t size);
