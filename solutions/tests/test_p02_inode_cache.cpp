@@ -1,4 +1,3 @@
-
 #include <gtest/gtest.h>
 extern "C" {
 #include "p02_inode_cache.h"

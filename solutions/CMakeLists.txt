@@ -1,4 +1,8 @@
 cmake_minimum_required(VERSION 3.18)
+
+# Force CMake to generate the compile_commands.json configuration database
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 project(canonical_linux_devices C CXX)
 
 # --- 1. Platform Validation -------------------------------------------------
@@ -62,6 +66,10 @@ if(TEST_FILE)
     
     message(STATUS "Building Single Test Target: ${TEST_FILE}")
     add_executable(run_tests ${TEST_FILE})
+    
+    # Force explicit GTest include path injection into the single file compilation command strings
+    target_include_directories(run_tests PRIVATE ${GTEST_INCLUDE_DIRS})
+    
     target_compile_options(run_tests PRIVATE ${COMMON_FLAGS} ${COMMON_SANITIZERS})
     target_link_options(run_tests PRIVATE ${COMMON_SANITIZERS})
     target_link_libraries(run_tests PRIVATE active_solution GTest::gtest GTest::gtest_main Threads::Threads)
@@ -80,6 +88,10 @@ else()
             get_filename_component(TEST_NAME ${TEST_PATH} NAME_WE)
             
             add_executable(${TEST_NAME} ${TEST_PATH})
+            
+            # Force explicit GTest include path injection into batch target compilation command strings
+            target_include_directories(${TEST_NAME} PRIVATE ${GTEST_INCLUDE_DIRS})
+            
             target_compile_options(${TEST_NAME} PRIVATE ${COMMON_FLAGS} ${COMMON_SANITIZERS})
             target_link_options(${TEST_NAME} PRIVATE ${COMMON_SANITIZERS})
             target_link_libraries(${TEST_NAME} PRIVATE active_solution GTest::gtest GTest::gtest_main Threads::Threads)
