@@ -3,14 +3,24 @@ CompilationDatabase:
 
 ---
 
+# 1. Catch ALL files inside the 'include' directory and force C11
 If:
-  PathMatch: .*\.(cpp|cc|cxx|h|hpp)
+  PathMatch: include/.*
 CompileFlags:
-  Add: [-std=c++14, -Iinclude, -DGTEST_HAS_PTHREAD=1]
+  Add: [-x, "c", -std=c11, -Iinclude]
 
 ---
 
+# 2. Catch regular .c files elsewhere and keep them as C11
 If:
   PathMatch: .*\.c
 CompileFlags:
   Add: [-std=c11, -Iinclude]
+
+---
+
+# 3. Catch C++ test files explicitly
+If:
+  PathMatch: .*\.(cpp|cc|cxx|hpp)
+CompileFlags:
+  Add: [-std=c++14, -Iinclude, -DGTEST_HAS_PTHREAD=1]

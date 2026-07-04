@@ -1,4 +1,5 @@
-#pragma once 
+#ifndef P02_INODE_CACHE_H
+#define P02_INODE_CACHE_H
 #include <stdint.h>
 #include <stdbool.h>
 /*
@@ -26,3 +27,4 @@ void         ic_insert(InodeCache *c, uint64_t ino, uint32_t mode, uint64_t size
 InodeEntry  *ic_lookup(InodeCache *c, uint64_t ino);  /* NULL on miss */
 void         ic_evict(InodeCache *c, uint64_t ino);
 int          ic_count(const InodeCache *c);
+#endif

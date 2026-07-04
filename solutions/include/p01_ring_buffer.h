@@ -16,7 +16,8 @@
  * portions of the Software.
  */
 
-#pragma once
+#ifndef P01_RING_BUFFER_H
+#define P01_RING_BUFFER_H 
 #include <stddef.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -94,4 +95,4 @@ bool rb_is_empty(const RingBuffer *rb);
  * @return true if full, false if space is available or rb is NULL.
  */
 bool rb_is_full(const RingBuffer *rb);
-
+#endif
