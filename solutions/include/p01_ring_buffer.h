@@ -2,10 +2,8 @@
  * @file p01_ring_buffer.h
  * @brief Public API for a high-performance, kernel-style ring buffer.
  *
- * This API provides a thread-safe (single-producer, single-consumer) FIFO 
- * buffer utility. 
- *
- * @note The capacity MUST be a power of two to optimize indexing performance.
+ * This API provides a lightweight, thread-safe (single-producer, single-consumer) 
+ * FIFO buffer utility suitable for kernel logging, serial drivers, and DMA descriptors.
  *
  * @license MIT License
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,30 +18,83 @@
 
 #ifndef P01_RING_BUFFER_H
 #define P01_RING_BUFFER_H
+
 #include <stddef.h>
 #include <stdbool.h>
 #include <stdint.h>
-/*
- * P01 - Kernel-style ring buffer (kfifo-like)
- * Used by: kernel log, serial drivers, DMA descriptors.
- * Constraint: capacity must be a power of two (allows mask instead of modulo).
+
+/**
+ * @struct RingBuffer
+ * @brief Structure representing the ring buffer instance.
  *
- * Hint: head & tail are ever-increasing; index = val & (cap-1)
- *       full  when (head - tail) == cap
- *       empty when head == tail
+ * Utilizes ever-increasing tracking indices to eliminate wrapping logic overhead.
  */
 typedef struct {
-    uint8_t *buf;
-    size_t head;   /* write index, never wraps */
-    size_t tail;   /* read  index, never wraps */
-    size_t cap;    /* must be power of two     */
+  uint8_t *buf; /**< Pointer to the dynamically allocated data buffer. */
+  size_t head;  /**< Write index. Ever-increasing, never manually wrapped. */
+  size_t tail;  /**< Read index. Ever-increasing, never manually wrapped. */
+  size_t cap;   /**< Total capacity of the buffer. Must be a power of two. */
 } RingBuffer;
 
-int      rb_init(RingBuffer *rb, size_t cap);   /* returns -1 if cap not pow2 */
-void     rb_destroy(RingBuffer *rb);
-int      rb_push(RingBuffer *rb, uint8_t byte);   /* -1 if full  */
-int      rb_pop(RingBuffer *rb, uint8_t *out);    /* -1 if empty */
+/**
+ * @brief Initializes a RingBuffer instance.
+ *
+ * Allocates internal buffer memory and resets tracking state.
+ *
+ * @note The capacity parameter must be a power of two.
+ * @param rb Pointer to the RingBuffer structure to initialize.
+ * @param cap The desired capacity of the buffer (must be a power of two).
+ * @return 0 on success, -1 if the capacity is invalid or allocation fails.
+ */
+int rb_init(RingBuffer *rb, size_t cap);
+
+/**
+ * @brief Frees all resources associated with the RingBuffer.
+ *
+ * @param rb Pointer to the RingBuffer instance to destroy. Safe if NULL.
+ */
+void rb_destroy(RingBuffer *rb);
+
+/**
+ * @brief Pushes a single byte onto the ring buffer.
+ *
+ * @param rb Pointer to the RingBuffer instance.
+ * @param byte The data byte to insert.
+ * @return 0 on success, -1 if the buffer is full or the instance is invalid.
+ */
+int rb_push(RingBuffer *rb, uint8_t byte);
+
+/**
+ * @brief Pops a single byte off the ring buffer.
+ *
+ * @param rb Pointer to the RingBuffer instance.
+ * @param out Destination pointer where the retrieved byte will be stored.
+ * @return 0 on success, -1 if the buffer is empty or pointers are invalid.
+ */
+int rb_pop(RingBuffer *rb, uint8_t *out);
+
+/**
+ * @brief Calculates the number of bytes currently stored in the ring buffer.
+ *
+ * @param rb Pointer to the RingBuffer instance.
+ * @return The total number of unread bytes, or 0 if rb is NULL.
+ */
 size_t rb_used(const RingBuffer *rb);
-bool     rb_is_empty(const RingBuffer *rb);
-bool     rb_is_full(const RingBuffer *rb);
-#endif
+
+/**
+ * @brief Checks if the ring buffer contains no data.
+ *
+ * @param rb Pointer to the RingBuffer instance.
+ * @return true if empty or rb is NULL, false otherwise.
+ */
+bool rb_is_empty(const RingBuffer *rb);
+
+/**
+ * @brief Checks if the ring buffer has reached its maximum capacity.
+ *
+ * @param rb Pointer to the RingBuffer instance.
+ * @return true if full, false if space is available or rb is NULL.
+ */
+bool rb_is_full(const RingBuffer *rb);
+
+#endif // P01_RING_BUFFER_H
