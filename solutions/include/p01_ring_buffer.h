@@ -1,3 +1,23 @@
+/**
+ * @file p01_ring_buffer.h
+ * @brief Public API for a high-performance, kernel-style ring buffer.
+ *
+ * This API provides a thread-safe (single-producer, single-consumer) FIFO 
+ * buffer utility. 
+ *
+ * @note The capacity MUST be a power of two to optimize indexing performance.
+ *
+ * @license MIT License
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * The above copyright notice shall be included in all copies or substantial 
+ * portions of the Software.
+ */
+
 #ifndef P01_RING_BUFFER_H
 #define P01_RING_BUFFER_H
 #include <stddef.h>
