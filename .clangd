@@ -1,11 +1,16 @@
-If:
-  Language: cpp
-CompileFlags:
-  Add: [-std=c++17, -Iinclude]
+CompilationDatabase:
+  Directory: build
 
 ---
 
 If:
-  Language: c
+  PathMatch: .*\.(cpp|cc|cxx|h|hpp)
+CompileFlags:
+  Add: [-std=c++14, -Iinclude, -DGTEST_HAS_PTHREAD=1]
+
+---
+
+If:
+  PathMatch: .*\.c
 CompileFlags:
   Add: [-std=c11, -Iinclude]
